@@ -1,11 +1,4 @@
 #include <HCSR04.h>
-#include <Servo.h>
-
-Servo myservo;  // create servo object to control a servo
-// twelve servo objects can be created on most boards
-
-int pos = 0;    // variable to store the servo position
-int potpin = 10; 
 
 byte triggerPin = 13;
 byte echoPin = 12;
@@ -15,7 +8,6 @@ int motori_pin1 = 6;
 int motori_pin2 = 11;
 
 void setup () {
-  myservo.attach(potpin);  // attaches the servo on pin 9 to the servo object
   pinMode(motord_pin1, OUTPUT);
   pinMode(motord_pin2, OUTPUT); 
   pinMode(motori_pin1, OUTPUT); 
@@ -35,22 +27,26 @@ void loop () {
   delay(250);
 
   
-  double stop = 30;
+  double stop = 25;
   if (distances[0] < stop){
     //para el robot
+    Serial.print("stop");
+    
     analogWrite(motord_pin1, 0);
     analogWrite(motord_pin2, 0);
     analogWrite(motori_pin1, 0);
     analogWrite(motori_pin2, 0);
     delay(1000);
     //va para atrás
-    analogWrite(motord_pin1, 110); 
+    Serial.print("atras");
+    analogWrite(motord_pin1, 200); 
     analogWrite(motord_pin2, 0); 
-    analogWrite(motori_pin1, 110); 
+    analogWrite(motori_pin1, 200); 
     analogWrite(motori_pin2, 0); 
     delay(1000);
+    Serial.print("giro");
     //gira el robot
-    analogWrite(motord_pin1, 110); 
+    analogWrite(motord_pin1, 200); 
     analogWrite(motord_pin2, 0); 
     analogWrite(motori_pin1, 0); 
     analogWrite(motori_pin2, 0); 
@@ -58,18 +54,8 @@ void loop () {
   }
   else{
     analogWrite(motord_pin1, 0); 
-    analogWrite(motord_pin2, 110); 
+    analogWrite(motord_pin2, 200); 
     analogWrite(motori_pin1, 0); 
-    analogWrite(motori_pin2, 110);
-    
-  }
-  for (pos = 100; pos <= 160; pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15 ms for the servo to reach the position
-  }
-  for (pos = 160; pos >= 100; pos -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15 ms for the servo to reach the position
+    analogWrite(motori_pin2, 200);
   }
 }
